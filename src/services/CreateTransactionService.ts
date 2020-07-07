@@ -22,8 +22,16 @@ class CreateTransactionService {
     categoryName,
   }: Request): Promise<Transaction> {
     const transactionRepository = getCustomRepository(TransactionRepository);
-
     const categoryRepository = getRepository(Category);
+
+    const balance = await transactionRepository.getBalance();
+
+    if (type === 'outcome' && value > balance.total) {
+      throw new AppError(
+        'O valor da saída é maior que o total disponível',
+        400,
+      );
+    }
 
     let category = await categoryRepository.findOne({
       where: { title: categoryName },
