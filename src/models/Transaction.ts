@@ -10,7 +10,7 @@ import {
 
 import Category from './Category';
 
-@Entity('trabsactions')
+@Entity('transactions')
 class Transaction {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -21,11 +21,11 @@ class Transaction {
   @Column()
   type: 'income' | 'outcome';
 
-  @Column('number')
+  @Column('numeric')
   value: number;
 
   @ManyToOne(() => Category)
-  @JoinColumn({ name: 'provider_id' })
+  @JoinColumn({ name: 'category_id' })
   category_id: string;
 
   @CreateDateColumn()
